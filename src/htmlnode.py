@@ -67,7 +67,8 @@ class ParentNode(HTMLNode):
         for child in self.children:
             result = child.to_html()
             result_string += result
-            result_string = f'<{self.tag}>{result_string}</{self.tag}>'
+        
+        result_string = f'<{self.tag}>{result_string}</{self.tag}>'
             
         return result_string
 

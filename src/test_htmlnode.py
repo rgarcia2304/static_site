@@ -58,6 +58,46 @@ class TestTextNode(unittest.TestCase):
         child_node = ParentNode("span", [grandchild_node])
         parent_node = ParentNode("div", [child_node])
         self.assertEqual(parent_node.to_html(),"<div><span><b>grandchild</b></span></div>",)
+    
+    def test_to_html_with_many_grandchilden(self):
+        grandchild_node1 = LeafNode("b", "grandchild")
+        grandchild_node2 = LeafNode("b", "grandchild")
+        grandchild_node3 = LeafNode("b", "grandchild")
+        child_node_1 = ParentNode("span", [grandchild_node1, grandchild_node2, grandchild_node3])
+        parent_node = ParentNode("div", [child_node_1])
+        html_str = "<div><span><b>grandchild</b><b>grandchild</b><b>grandchild</b></span></div>"
+        self.assertEqual(parent_node.to_html(), html_str)
+
+
+    def test_to_html_with_many_children(self):
+        child_node = LeafNode("span", "child")
+        child2_node = LeafNode("p", "child1")
+        child3_node = LeafNode("p", "child2")
+        parent_node = ParentNode("div", [child_node, child2_node, child3_node])
+        self.assertEqual(parent_node.to_html(), "<div><span>child</span><p>child1</p><p>child2</p></div>")
+    
+    def test_parent_with_no_children(self):
+        parent_node = ParentNode("span", [])
+        self.assertEqual(parent_node.to_html(), "<span></span>")
+
+    def test_generations_with_children(self):
+        child_node = LeafNode("h1", "hello")
+        g1 = ParentNode("p", [child_node])
+        g2 = ParentNode("p", [g1])
+        g3 = ParentNode("p", [g2])
+        g4 = ParentNode("p", [g3])
+        b_node = ParentNode("div", [])
+        c_node = ParentNode("h1", [])
+        daddy_node = ParentNode("div",[g4, b_node, c_node])
+        expected_html = "<div><p><p><p><p><h1>hello</h1></p></p></p></p><div></div><h1></h1></div>"
+        self.assertEqual(daddy_node.to_html(), expected_html)
+
+    def test_many_children_with_no_children(self):
+        child1 = ParentNode("p", [])
+        child2 = ParentNode("div",[])
+        parent = ParentNode("div",[child1,child2])
+        expected_html = "<div><p></p><div></div></div>"
+        self.assertEqual(parent.to_html(), expected_html)
 
 if __name__ == "__main__":
     unittest.main()
