@@ -17,7 +17,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
         modified_string_node_list.append(modified_string)
 
-    print(modified_string_node_list)
 
     #Now we have a string of nodes we will potentially make into new nodes
     
@@ -27,7 +26,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         after_split_string = string_node.split(delimiter)
         new_nodes_list.append(after_split_string)
     
-    print(new_nodes_list)
 
     #Now we have the full list of split nodes
     final_nodes_list = []
@@ -36,13 +34,16 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
     for node in new_nodes_list:
         for word in node:
-            print(word[0])
             if '#' == word[0] and delim == False:
                 delim = True
                 new_added_node = TextNode(word.strip("#"), text_type)
                 final_nodes_list.append(new_added_node)
             else:
                 delim = False
+
+                #case for when delim was on last word
+                if len(word) == 1:
+                    break
                 new_added_node = TextNode(word.strip("#"), TextType.TEXT)
                 final_nodes_list.append(new_added_node)
 
@@ -56,6 +57,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
 def main():
     node = TextNode("This is text with a `code block` word", TextType.TEXT)
-    new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+    node2 = TextNode("This is `bob` bobby `bob`", TextType.TEXT)
+    new_nodes = split_nodes_delimiter([node,node2], "`", TextType.CODE)
     
 main()
