@@ -3,7 +3,6 @@ import unittest
 
 from htmlnode import *
 
-
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
         dict2 = {

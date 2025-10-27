@@ -3,61 +3,34 @@ from textnode import *
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     
     #do initial loop to find where delims start and end 
+    new_nodes_text_nodes = []
     
-    modified_string_node_list = []
     for node in old_nodes:
+        
+        if node.text_type != TextType.TEXT:
+            new_nodes_text_nodes.append(node)
+            break
 
-        #modify the strings of each of the old nodes and save the strings 
-        modified_string = ""
-        for text in node.text:
-            if text == delimiter:
-                modified_string += text + "#"
+        #split node text in to seperate strings
+        split_string_node = node.text.split(delimiter)
+        individual_list = []
+        for i in range(len(split_string_node)):
+            if split_string_node[i] == '' or "" or None:
+                pass
+
+            elif i % 2 == 0:
+                individual_list.append(TextNode(split_string_node[i], TextType.TEXT))
             else:
-                modified_string += text
+                individual_list.append(TextNode(split_string_node[i], text_type))
+        
+        new_nodes_text_nodes.extend(individual_list)
+    return new_nodes_text_nodes
 
-        modified_string_node_list.append(modified_string)
-
-
-    #Now we have a string of nodes we will potentially make into new nodes
     
-    new_nodes_list = []
-    for string_node in modified_string_node_list:
-        #split the string_node by the delimeter
-        after_split_string = string_node.split(delimiter)
-        new_nodes_list.append(after_split_string)
-    
-
-    #Now we have the full list of split nodes
-    final_nodes_list = []
-    delim = False
-    agg = ""
-
-    for node in new_nodes_list:
-        for word in node:
-            if '#' == word[0] and delim == False:
-                delim = True
-                new_added_node = TextNode(word.strip("#"), text_type)
-                final_nodes_list.append(new_added_node)
-            else:
-                delim = False
-
-                #case for when delim was on last word
-                if len(word) == 1:
-                    break
-                new_added_node = TextNode(word.strip("#"), TextType.TEXT)
-                final_nodes_list.append(new_added_node)
-
-
-    print(final_nodes_list)
-
-    return final_nodes_list
-
-
-
 
 def main():
     node = TextNode("This is text with a `code block` word", TextType.TEXT)
     node2 = TextNode("This is `bob` bobby `bob`", TextType.TEXT)
     new_nodes = split_nodes_delimiter([node,node2], "`", TextType.CODE)
-    
 main()
+
