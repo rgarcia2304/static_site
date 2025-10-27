@@ -1,5 +1,5 @@
 from textnode import *
-
+import re 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     
     #do initial loop to find where delims start and end 
@@ -26,11 +26,19 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         new_nodes_text_nodes.extend(individual_list)
     return new_nodes_text_nodes
 
-    
+def extract_markdown_images(text):
+    expr = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)    
+    return expr
+
+def extract_markdown_links(text):
+    expr = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+    return expr
+        
 
 def main():
-    node = TextNode("This is text with a `code block` word", TextType.TEXT)
-    node2 = TextNode("This is `bob` bobby `bob`", TextType.TEXT)
-    new_nodes = split_nodes_delimiter([node,node2], "`", TextType.CODE)
+    matches = extract_markdown_images(
+        "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+    )
+    print(matches)
 main()
 
