@@ -84,6 +84,51 @@ class TestInline(unittest.TestCase):
             new_nodes
         )
 
+    def test_no_images(self):
+        text = "Hi (https://www.google.com) hello (https://www.toyota.com) hallo[image](https://www.techcrunch.com) bonjour"
+        node = TextNode(
+            text,
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [TextNode("Hi (https://www.google.com) hello (https://www.toyota.com) hallo[image](https://www.techcrunch.com) bonjour",TextType.TEXT)],
+            new_nodes
+        )
+
+    def test_no_links(self):
+        text = "Hi (https://www.google.com) hello (https://www.toyota.com) hallo(image](https://www.techcrunch.com) bonjour"
+        node = TextNode(
+            text,
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_links([node])
+        self.assertListEqual(
+            [TextNode("Hi (https://www.google.com) hello (https://www.toyota.com) hallo(image](https://www.techcrunch.com) bonjour",TextType.TEXT)],
+            new_nodes
+        )
+
+    def test_split_links_large(self):
+        text = "Hi [link1](https://www.google.com) hello [link2](https://www.toyota.com) hallo[link3](https://www.techcrunch.com) bonjour"
+        node = TextNode(
+                text,
+                TextType.TEXT,
+        )
+        new_nodes = split_nodes_links([node])
+        self.assertListEqual(
+            [
+                TextNode("Hi ",TextType.TEXT),
+                TextNode("link1", TextType.LINK, "https://www.google.com"),
+                TextNode(" hello ", TextType.TEXT),
+                TextNode("link2", TextType.LINK, "https://www.toyota.com"),
+                TextNode(" hallo", TextType.TEXT),
+                TextNode("link3", TextType.LINK, "https://www.techcrunch.com"),
+                TextNode(" bonjour", TextType.TEXT),
+
+            ],
+            new_nodes
+        )
+
     def test_split_links(self):
         node = TextNode(
                 "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",

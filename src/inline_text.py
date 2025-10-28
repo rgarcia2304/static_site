@@ -86,6 +86,10 @@ def split_nodes_links(old_nodes):
                 new_node_link = TextNode(txt, TextType.LINK, link)
                 lst_nodes.append(new_node_link)
                 curr_text = working_split[1]
+        
+        if curr_text != "" and curr_text != '':
+            new_node = TextNode(curr_text, TextType.TEXT)
+            lst_nodes.append(new_node)
 
         return lst_nodes
 
