@@ -28,7 +28,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 
 def extract_markdown_images(text):
     expr = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)    
-    print(expr)
     return expr
 
 def extract_markdown_links(text):
@@ -41,8 +40,6 @@ def split_nodes_image(old_nodes):
     for node in old_nodes:
         #extract the regex from it
         values_to_split_by = extract_markdown_images(node.text)
-        print("HELLO")
-        print(f"these are the vals to split by {values_to_split_by}")
         if values_to_split_by is None:
             new_node = TextNode(node.text, TextType.TEXT)
             lst_nodes.append(new_node)
@@ -53,16 +50,18 @@ def split_nodes_image(old_nodes):
         for val in values_to_split_by:
             img = val[0]
             img_link = val[1]
-            print(img)
             working_split = curr_text.split(f"![{img}]({img_link})")
-            print("ABOVE IS VAL")
             if working_split[0] != None or working_split!= "" or working_split!= '':
                 new_node = TextNode(working_split[0], TextType.TEXT)
                 lst_nodes.append(new_node)
                 new_node_link = TextNode(img, TextType.IMAGE, img_link)
                 lst_nodes.append(new_node_link)
                 curr_text = working_split[1]
-
+        
+        if curr_text!= "" and curr_text != '':
+            new_node = TextNode(curr_text, TextType.TEXT)
+            lst_nodes.append(new_node)
+        
         return lst_nodes
 
 def split_nodes_links(old_nodes):
@@ -70,8 +69,6 @@ def split_nodes_links(old_nodes):
     for node in old_nodes:
         #extract the regex from it
         values_to_split_by = extract_markdown_links(node.text)
-        print("HELLO")
-        print(f"these are the vals to split by {values_to_split_by}")
         if values_to_split_by is None:
             new_node = TextNode(node.text, TextType.TEXT)
             lst_nodes.append(new_node)
@@ -92,16 +89,12 @@ def split_nodes_links(old_nodes):
 
         return lst_nodes
 
-def main():
-    text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-    node = TextNode(
-        text,
-        TextType.TEXT,
-    )
-    new_nodes = split_nodes_links([node])
-    print(new_nodes)
-
-main()
 
     
+def main():
+    text = "Hi ![image](https://www.google.com) hello ![image](https://www.toyota.com) hallo![image](https://www.techcrunch.com) bojour"
+    node = TextNode(text, TextType.TEXT)
+    nodes = split_nodes_image([node])
+    print(nodes)
 
+main()
