@@ -96,6 +96,35 @@ class TestInline(unittest.TestCase):
             new_nodes
         )
 
+    def test_multi_split_images(self):
+        text = "Hi ![image](https://burgerking.com) whopper"
+        text2 = "hi ![image](https://mcdonalds.com) bigmac"
+        node = TextNode(
+                text,
+                TextType.TEXT,
+        )
+
+        node2 = TextNode(
+                text2,
+                TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_image([node, node2])
+
+        self.assertListEqual(
+            [
+                TextNode("Hi ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://burgerking.com"),
+                TextNode(" whopper", TextType.TEXT),
+                TextNode("hi ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://mcdonalds.com"),
+                TextNode(" bigmac", TextType.TEXT),
+
+            ],
+            new_nodes
+        )
+
+
     def test_no_links(self):
         text = "Hi (https://www.google.com) hello (https://www.toyota.com) hallo(image](https://www.techcrunch.com) bonjour"
         node = TextNode(
@@ -128,6 +157,35 @@ class TestInline(unittest.TestCase):
             ],
             new_nodes
         )
+    def test_multi_split_links(self):
+        text = "Hi [link2](https://burgerking.com) whopper"
+        text2 = "hi [link1](https://mcdonalds.com) bigmac"
+        node = TextNode(
+                text,
+                TextType.TEXT,
+        )
+
+        node2 = TextNode(
+                text2,
+                TextType.TEXT,
+        )
+
+        new_nodes = split_nodes_links([node, node2])
+
+        self.assertListEqual(
+            [
+                TextNode("Hi ", TextType.TEXT),
+                TextNode("link2", TextType.LINK, "https://burgerking.com"),
+                TextNode(" whopper", TextType.TEXT),
+                TextNode("hi ", TextType.TEXT),
+                TextNode("link1", TextType.LINK, "https://mcdonalds.com"),
+                TextNode(" bigmac", TextType.TEXT),
+
+            ],
+            new_nodes
+        )
+
+
 
     def test_split_links(self):
         node = TextNode(

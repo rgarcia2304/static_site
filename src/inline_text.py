@@ -36,14 +36,16 @@ def extract_markdown_links(text):
         
 
 def split_nodes_image(old_nodes):
-    lst_nodes = []
+    lst_nodes_final = []
     for node in old_nodes:
         #extract the regex from it
+        lst_nodes = []
+
         values_to_split_by = extract_markdown_images(node.text)
         if values_to_split_by is None:
             new_node = TextNode(node.text, TextType.TEXT)
             lst_nodes.append(new_node)
-            return lst_nodes
+            lst_nodes_final.extend(lst_nodes)
         
         curr_text = node.text
         
@@ -62,17 +64,20 @@ def split_nodes_image(old_nodes):
             new_node = TextNode(curr_text, TextType.TEXT)
             lst_nodes.append(new_node)
         
-        return lst_nodes
+        lst_nodes_final.extend(lst_nodes)
+
+    return lst_nodes_final
 
 def split_nodes_links(old_nodes):
-    lst_nodes = []
+    lst_nodes_final = []
     for node in old_nodes:
+        lst_nodes = []
         #extract the regex from it
         values_to_split_by = extract_markdown_links(node.text)
         if values_to_split_by is None:
             new_node = TextNode(node.text, TextType.TEXT)
             lst_nodes.append(new_node)
-            return lst_nodes
+            lst_nodes_final.extend(lst_nodes)
         
         curr_text = node.text
         
@@ -91,14 +96,20 @@ def split_nodes_links(old_nodes):
             new_node = TextNode(curr_text, TextType.TEXT)
             lst_nodes.append(new_node)
 
-        return lst_nodes
+        lst_nodes_final.extend(lst_nodes)
+    return lst_nodes_final
 
 
     
 def main():
-    text = "Hi ![image](https://www.google.com) hello ![image](https://www.toyota.com) hallo![image](https://www.techcrunch.com) bojour"
-    node = TextNode(text, TextType.TEXT)
-    nodes = split_nodes_image([node])
-    print(nodes)
+    text = "Hi ![link2](https://burgerking.com) whopper"
+    text2 = "hi ![link1](https://mcdonalds.com) bigmac"
+    node = TextNode(
+                text,
+                TextType.TEXT,
+        )
+    node2 = TextNode(text2,TextType.TEXT,)
+    new_nodes = split_nodes_image([node, node2])
+    print(new_nodes)
 
 main()
