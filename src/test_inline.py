@@ -203,6 +203,38 @@ class TestInline(unittest.TestCase):
             new_nodes,
         )
 
+    def test_text_to_textnodes(self):
+        text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+
+        expected = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("text", TextType.BOLD),
+            TextNode(" with an ", TextType.TEXT),
+            TextNode("italic", TextType.ITALIC),
+            TextNode(" word and a ", TextType.TEXT),
+            TextNode("code block", TextType.CODE),
+            TextNode(" and an ", TextType.TEXT),
+            TextNode("obi wan image", TextType.IMAGE, "https://i.imgur.com/fJRm4Vk.jpeg"),
+            TextNode(" and a ", TextType.TEXT),
+            TextNode("link", TextType.LINK, "https://boot.dev"),
+        ]
+
+        self.assertListEqual(expected, text_to_textnodes(text))
+
+    def test_text_to_textnodes2(self):
+        text = "**happy feet** dont `fail me now` look at this [link](https://happyfeet.com)"
+
+        expected = [
+            TextNode("happy feet", TextType.BOLD),
+            TextNode(" dont ", TextType.TEXT),
+            TextNode("fail me now", TextType.CODE),
+            TextNode(" look at this ", TextType.TEXT),
+            TextNode("link", TextType.LINK, "https://happyfeet.com"),
+        ]
+
+        self.assertListEqual(expected, text_to_textnodes(text))
+    
+
 if __name__ == "__main__":
     unittest.main()
 
