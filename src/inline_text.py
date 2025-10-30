@@ -9,21 +9,21 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         
         if node.text_type != TextType.TEXT:
             new_nodes_text_nodes.append(node)
-            break
+            
+        else:
+            #split node text in to seperate strings
+            split_string_node = node.text.split(delimiter)
+            individual_list = []
+            for i in range(len(split_string_node)):
+                if split_string_node[i] == '' or "" or None:
+                    pass
 
-        #split node text in to seperate strings
-        split_string_node = node.text.split(delimiter)
-        individual_list = []
-        for i in range(len(split_string_node)):
-            if split_string_node[i] == '' or "" or None:
-                pass
-
-            elif i % 2 == 0:
-                individual_list.append(TextNode(split_string_node[i], TextType.TEXT))
-            else:
-                individual_list.append(TextNode(split_string_node[i], text_type))
+                elif i % 2 == 0:
+                    individual_list.append(TextNode(split_string_node[i], TextType.TEXT))
+                else:
+                    individual_list.append(TextNode(split_string_node[i], text_type))
         
-        new_nodes_text_nodes.extend(individual_list)
+            new_nodes_text_nodes.extend(individual_list)
     return new_nodes_text_nodes
 
 def extract_markdown_images(text):
@@ -40,76 +40,90 @@ def split_nodes_image(old_nodes):
     for node in old_nodes:
         #extract the regex from it
         lst_nodes = []
-
+        #print(node)
         values_to_split_by = extract_markdown_images(node.text)
-        if values_to_split_by is None:
-            new_node = TextNode(node.text, TextType.TEXT)
-            lst_nodes.append(new_node)
+        #print(values_to_split_by)
+        if values_to_split_by == []:
+            lst_nodes.append(node)
             lst_nodes_final.extend(lst_nodes)
         
-        curr_text = node.text
+        else:
+            curr_text = node.text
         
-        for val in values_to_split_by:
-            img = val[0]
-            img_link = val[1]
-            working_split = curr_text.split(f"![{img}]({img_link})")
-            if working_split[0] != None or working_split!= "" or working_split!= '':
-                new_node = TextNode(working_split[0], TextType.TEXT)
+            for val in values_to_split_by:
+                img = val[0]
+                img_link = val[1]
+                working_split = curr_text.split(f"![{img}]({img_link})")
+                if working_split[0] != None or working_split!= "" or working_split!= '':
+                    new_node = TextNode(working_split[0], TextType.TEXT)
+                    lst_nodes.append(new_node)
+                    new_node_link = TextNode(img, TextType.IMAGE, img_link)
+                    lst_nodes.append(new_node_link)
+                    curr_text = working_split[1]
+        
+            if curr_text!= "" and curr_text != '':
+                new_node = TextNode(curr_text, TextType.TEXT)
                 lst_nodes.append(new_node)
-                new_node_link = TextNode(img, TextType.IMAGE, img_link)
-                lst_nodes.append(new_node_link)
-                curr_text = working_split[1]
         
-        if curr_text!= "" and curr_text != '':
-            new_node = TextNode(curr_text, TextType.TEXT)
-            lst_nodes.append(new_node)
-        
-        lst_nodes_final.extend(lst_nodes)
+            lst_nodes_final.extend(lst_nodes)
 
     return lst_nodes_final
 
 def split_nodes_links(old_nodes):
     lst_nodes_final = []
+    print(old_nodes)
     for node in old_nodes:
         lst_nodes = []
         #extract the regex from it
         values_to_split_by = extract_markdown_links(node.text)
-        if values_to_split_by is None:
-            new_node = TextNode(node.text, TextType.TEXT)
-            lst_nodes.append(new_node)
+        if values_to_split_by == []:
+            #print(node)
+            lst_nodes.append(node)
+            #print(lst_nodes)
             lst_nodes_final.extend(lst_nodes)
         
-        curr_text = node.text
+        else:
+            #print("VALLUEEEE")
+            #print(values_to_split_by)
+            #print("----------")
+            curr_text = node.text
         
-        for val in values_to_split_by:
-            txt = val[0]
-            link = val[1]
-            working_split = curr_text.split(f"[{txt}]({link})")
-            if working_split[0] != None or working_split!= "" or working_split!= '':
-                new_node = TextNode(working_split[0], TextType.TEXT)
+            for val in values_to_split_by:
+                txt = val[0]
+                link = val[1]
+                working_split = curr_text.split(f"[{txt}]({link})")
+                if working_split[0] != None or working_split!= "" or working_split!= '':
+                    new_node = TextNode(working_split[0], TextType.TEXT)
+                    lst_nodes.append(new_node)
+                    new_node_link = TextNode(txt, TextType.LINK, link)
+                    lst_nodes.append(new_node_link)
+                    curr_text = working_split[1]
+        
+            if curr_text != "" and curr_text != '':
+                new_node = TextNode(curr_text, TextType.TEXT)
                 lst_nodes.append(new_node)
-                new_node_link = TextNode(txt, TextType.LINK, link)
-                lst_nodes.append(new_node_link)
-                curr_text = working_split[1]
-        
-        if curr_text != "" and curr_text != '':
-            new_node = TextNode(curr_text, TextType.TEXT)
-            lst_nodes.append(new_node)
 
-        lst_nodes_final.extend(lst_nodes)
+            lst_nodes_final.extend(lst_nodes)
+    
+    print(lst_nodes_final)
     return lst_nodes_final
 
-
+def text_to_textnodes(text):
+    node = TextNode(text, TextType.TEXT)
     
+    bolded_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+    #print(bolded_nodes)
+    italic_nodes = split_nodes_delimiter(bolded_nodes, "_", TextType.ITALIC)
+    #print("hello")
+    #print(italic_nodes)
+    code_nodes = split_nodes_delimiter(italic_nodes, "`", TextType.CODE)
+    #print(code_nodes)
+    img_nodes = split_nodes_image(code_nodes)
+    #print(img_nodes)
+    link_nodes = split_nodes_links(img_nodes)
+    #print("HELLLLLLO")
+    #print(link_nodes) 
 def main():
-    text = "Hi ![link2](https://burgerking.com) whopper"
-    text2 = "hi ![link1](https://mcdonalds.com) bigmac"
-    node = TextNode(
-                text,
-                TextType.TEXT,
-        )
-    node2 = TextNode(text2,TextType.TEXT,)
-    new_nodes = split_nodes_image([node, node2])
-    print(new_nodes)
-
+    text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+    text_to_textnodes(text)
 main()
