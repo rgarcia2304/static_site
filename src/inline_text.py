@@ -71,7 +71,6 @@ def split_nodes_image(old_nodes):
 
 def split_nodes_links(old_nodes):
     lst_nodes_final = []
-    print(old_nodes)
     for node in old_nodes:
         lst_nodes = []
         #extract the regex from it
