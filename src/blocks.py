@@ -1,5 +1,7 @@
 from textnode import *
 import re 
+from htmlnode import *
+from inline_text import *
 
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
