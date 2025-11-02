@@ -82,8 +82,11 @@ def block_to_block_type(markdown):
 
 def block_text_to_html_nodes(text_nodes):
     lst_html_nodes = []
+    
+    "THIS IS THE TEXT NODE CURRENTLLY"
     for block_node in text_nodes:
-        lst_html_nodes = text_node_to_html_node(block_node)
+
+        lst_html_nodes.append(text_node_to_html_node(block_node))
     
     return lst_html_nodes
 def block_type_to_tag(block_type, block):
@@ -131,10 +134,6 @@ def block_to_html(markdown):
 
     #split the markdown into blocks
     converted_blocks = markdown_to_blocks(markdown)
-    print("------------")
-    print("converted_blocks")
-    print(converted_blocks)
-    print("-------------")
 
     lst_of_parent_nodes = []
     #loop throught the converted blocks 
@@ -142,17 +141,9 @@ def block_to_html(markdown):
         
 
         #get the block information,will eventually have this become the parent node 
-        print("---------")
-        print("THIS IS THE CURRENT BLOCK")
-        print(block)
-        print("THIS IS THE BLOCK TYPE")
         block_type = block_to_block_type(block)
-        print(block_type)
         #convert this block into block_tag
-        print("THIS IS THE BLOCK TAG")
         block_tag = block_type_to_tag(block_type, block)
-        print(block_tag)
-        print("----------------")
 
         if block_tag == BlockType.ORDERED_LIST:
             #going to need to convert the block of the list into text nodes 
@@ -164,22 +155,10 @@ def block_to_html(markdown):
             
             #convert the block into text nodes 
             block_to_text_nodes = text_to_textnodes(block)
-            print("------------")
-            print("THESE ARE THE BLOCK TO TEXT NODES")
-            print(block_to_text_nodes)
-            print("-------------")
-
-            print("THESE ARE NOW THE HTML CHILDREN")
             
             children = block_text_to_html_nodes(block_to_text_nodes)
-            print(children)
-            print("-------------------")
             #ok so now we have the children so set the dad 
             parent_node = ParentNode(block_tag, children)
-            print("THIS IS THE PARENT NODE")
-            print(parent_node)
-            print("--------------------")
-
             lst_of_parent_nodes.append(parent_node)
         
         else:
@@ -189,9 +168,11 @@ def block_to_html(markdown):
             the_father_node_for_code = ParentNode('div', [parent_to_html_single], None)
             return the_father_node_for_code
 
-    #ok so now we the parent nodes 
+    #ok so now we the parent nodes
     the_father_node = ParentNode('div', lst_of_parent_nodes, None)
-    
+    final_representation = the_father_node.to_html()
+
+    print(final_representation) 
     return the_father_node
 
 
