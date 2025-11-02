@@ -89,11 +89,18 @@ def block_to_html(markdown):
     lst_of_parent_nodes = []
     #loop throught the converted blocks 
     for block in converted_blocks:
+
+
         #get the block information,will eventually have this become the parent node 
-        block_tag = block_to_block_type(block)
+        block_type = block_to_block_type(block)
+        #convert this block into block_tag
+        block_tag = block_type_to_tag(block_type, block)
         
         if block_tag == BlockType.ORDEREDLIST:
             #going to need to convert the block of the list into text nodes 
+            list_nodes = list_block_to_nodes(block)
+            parent_node = ParentNode(block_tag, list_nodes, None)
+            lst_of_parent_nodes.append(parent_node)
 
         elif block_tag != BlockType.CODE:
             
@@ -119,12 +126,12 @@ def block_text_nodes_to_html_nodes(text_nodes):
     for block_node in text_nodes:
         lst_html_nodes = text_node_to_html_node(block_node)
 
-def block_type_to_tag(block_type):
+def block_type_to_tag(block_type, block):
     if block_type == BlockType.PARAGRAPH:
         return 'p'
     if block_type == BlockType.HEADING:
         #count the number of #'s
-        pass
+        return count_header_size(block)
     
     if block_type == BlockType.QUOTE:
         return 'quote'
@@ -151,7 +158,15 @@ def convert_listblock_to_nodes(block,parent_node):
     
     return lst_of_html_nodes
     
+def count_header_size(block):
+    
+    count = 0
+    while char in block == "#":
+        count += 1 
 
+    return f"h{count}" 
+    
+    while char in block == 6
 def main():
     text = "1. my name is JOe"
     print(block_to_block_type(text))
