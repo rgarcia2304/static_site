@@ -80,52 +80,12 @@ def block_to_block_type(markdown):
     # default
     return BlockType.PARAGRAPH 
 
-
-def block_to_html(markdown):
-
-    #split the markdown into blocks
-    converted_blocks = markdown_to_blocks(markdown)
-    
-    lst_of_parent_nodes = []
-    #loop throught the converted blocks 
-    for block in converted_blocks:
-
-
-        #get the block information,will eventually have this become the parent node 
-        block_type = block_to_block_type(block)
-        #convert this block into block_tag
-        block_tag = block_type_to_tag(block_type, block)
-        
-        if block_tag == BlockType.ORDEREDLIST:
-            #going to need to convert the block of the list into text nodes 
-            list_nodes = list_block_to_nodes(block)
-            parent_node = ParentNode(block_tag, list_nodes, None)
-            lst_of_parent_nodes.append(parent_node)
-
-        elif block_tag != BlockType.CODE:
-            
-            #convert the block into text nodes 
-            block_to_text_nodes = text_to_textnodes(block)
-            children = block_text_to_html_nodes(block_to_text_nodes)
-            #ok so now we have the children so set the dad 
-            parent_node = ParentNode(block_tag, children, None)
-            lst_of_parent_nodes.append(parent_node)
-        
-        else:
-            new_child_node = TextNode(block, TextType.CODE)
-            new_html_node = text_node_to_html_node(new_child_node)
-            parent_to_html_single = ParentNode('pre', [new_html_node], None)
-            the_father_node_for_code = ParentNode('div', lst_of_parent_nodes, None)
-
-    #ok so now we the parent nodes 
-    the_father_node = ParentNode('div', lst_of_parent_nodes, None)
-
-
-def block_text_nodes_to_html_nodes(text_nodes):
+def block_text_to_html_nodes(text_nodes):
     lst_html_nodes = []
     for block_node in text_nodes:
         lst_html_nodes = text_node_to_html_node(block_node)
-
+    
+    return lst_html_nodes
 def block_type_to_tag(block_type, block):
     if block_type == BlockType.PARAGRAPH:
         return 'p'
@@ -166,8 +126,85 @@ def count_header_size(block):
 
     return f"h{count}" 
     
-    while char in block == 6
+
+def block_to_html(markdown):
+
+    #split the markdown into blocks
+    converted_blocks = markdown_to_blocks(markdown)
+    print("------------")
+    print("converted_blocks")
+    print(converted_blocks)
+    print("-------------")
+
+    lst_of_parent_nodes = []
+    #loop throught the converted blocks 
+    for block in converted_blocks:
+        
+
+        #get the block information,will eventually have this become the parent node 
+        print("---------")
+        print("THIS IS THE CURRENT BLOCK")
+        print(block)
+        print("THIS IS THE BLOCK TYPE")
+        block_type = block_to_block_type(block)
+        print(block_type)
+        #convert this block into block_tag
+        print("THIS IS THE BLOCK TAG")
+        block_tag = block_type_to_tag(block_type, block)
+        print(block_tag)
+        print("----------------")
+
+        if block_tag == BlockType.ORDERED_LIST:
+            #going to need to convert the block of the list into text nodes 
+            list_nodes = list_block_to_nodes(block)
+            parent_node = ParentNode(block_tag, list_nodes, None)
+            lst_of_parent_nodes.append(parent_node)
+
+        elif block_tag != BlockType.CODE:
+            
+            #convert the block into text nodes 
+            block_to_text_nodes = text_to_textnodes(block)
+            print("------------")
+            print("THESE ARE THE BLOCK TO TEXT NODES")
+            print(block_to_text_nodes)
+            print("-------------")
+
+            print("THESE ARE NOW THE HTML CHILDREN")
+            
+            children = block_text_to_html_nodes(block_to_text_nodes)
+            print(children)
+            print("-------------------")
+            #ok so now we have the children so set the dad 
+            parent_node = ParentNode(block_tag, children)
+            print("THIS IS THE PARENT NODE")
+            print(parent_node)
+            print("--------------------")
+
+            lst_of_parent_nodes.append(parent_node)
+        
+        else:
+            new_child_node = TextNode(block, TextType.CODE)
+            new_html_node = text_node_to_html_node(new_child_node)
+            parent_to_html_single = ParentNode('pre', [new_html_node], None)
+            the_father_node_for_code = ParentNode('div', [parent_to_html_single], None)
+            return the_father_node_for_code
+
+    #ok so now we the parent nodes 
+    the_father_node = ParentNode('div', lst_of_parent_nodes, None)
+    
+    return the_father_node
+
+
 def main():
-    text = "1. my name is JOe"
-    print(block_to_block_type(text))
+    md = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+
+    node = block_to_html(md)
+    
 main()
