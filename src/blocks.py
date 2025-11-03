@@ -11,9 +11,7 @@ class BlockType(Enum):
     UNORDERED_LIST = "unordered_list"
     ORDERED_LIST = "ordered_list"
 
-
 def markdown_to_blocks(markdown):
-
     #split blocks based on new_lines
     split_blocks = markdown.split("\n\n")
     
@@ -45,7 +43,7 @@ def markdown_to_blocks(markdown):
         if block != "":
             final_blocks.append(block)
     
-    return final_blocks
+    return final_blocks 
 
 def block_to_block_type(markdown):
     # header
@@ -152,15 +150,15 @@ def block_to_html(markdown):
             lst_of_parent_nodes.append(parent_node)
 
         elif block_tag != BlockType.CODE:
-            
-            #convert the block into text nodes 
-            block_to_text_nodes = text_to_textnodes(block)
-            
-            children = block_text_to_html_nodes(block_to_text_nodes)
-            #ok so now we have the children so set the dad 
-            parent_node = ParentNode(block_tag, children)
-            lst_of_parent_nodes.append(parent_node)
         
+            # Normalize hard line breaks inside a paragraph to spaces
+            if block_type == BlockType.PARAGRAPH:
+                block = " ".join(block.splitlines())
+
+                block_to_text_nodes = text_to_textnodes(block)
+                children = block_text_to_html_nodes(block_to_text_nodes)
+                parent_node = ParentNode(block_tag, children)
+                lst_of_parent_nodes.append(parent_node)    
         else:
             new_child_node = TextNode(block, TextType.CODE)
             new_html_node = text_node_to_html_node(new_child_node)
@@ -171,9 +169,8 @@ def block_to_html(markdown):
     #ok so now we the parent nodes
     the_father_node = ParentNode('div', lst_of_parent_nodes, None)
     final_representation = the_father_node.to_html()
-
-    print(final_representation) 
-    return the_father_node
+    #print(final_representation)
+    return final_representation
 
 
 def main():
@@ -187,5 +184,20 @@ This is another paragraph with _italic_ text and `code` here
 """
 
     node = block_to_html(md)
+    print(node)
+
+    md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+    blocks = markdown_to_blocks(md)
+
+
     
 main()
+

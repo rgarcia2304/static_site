@@ -69,6 +69,22 @@ Hello still here
     def test_ordered_list(self):
         text = "1. my name is Joe"
         self.assertEqual(BlockType.ORDERED_LIST, block_to_block_type(text))
+    
+    def test_paragraphs(self):
+        markdown = """
+This is **bolded** paragraph
+text in a p
+tag here
+
+This is another paragraph with _italic_ text and `code` here
+
+"""
+
+        node = block_to_html(markdown)
+        self.assertEqual(
+            node,
+            "<div><p>This is <b>bolded</b> paragraph text in a p tag here</p><p>This is another paragraph with <i>italic</i> text and <code>code</code> here</p></div>",
+        )
 
 if __name__ == "__main__":
     unittest.main()
