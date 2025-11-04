@@ -66,12 +66,16 @@ def block_to_block_type(markdown):
         return BlockType.QUOTE
 
     # unordered list (-, +, or * followed by space and text)
-    test_unordered_list = re.findall(r'^[-+*]\s+.+', markdown)
+    test_unordered_list = re.findall(r'^[-+*]\s+.+', markdown,flags = re.MULTILINE)
     if test_unordered_list:
         return BlockType.UNORDERED_LIST
 
     # ordered list (one or more digits, dot, space, then text)
-    test_ordered_list = re.findall(r'^\s*\d+\.\s+(.+)$', markdown)
+    test_ordered_list = re.findall(r'^\s*\d+\.\s+(.+)$', markdown, flags = re.MULTILINE)
+    print("------------")
+    print(test_ordered_list)
+    print("-------------")
+
     if test_ordered_list:
         return BlockType.ORDERED_LIST
 
@@ -110,17 +114,19 @@ def block_type_to_tag(block_type, block):
         return "code"
         
 
-def convert_listblock_to_nodes(block,parent_node):
+def list_block_to_nodes(block):
 
     #first things first split the block by new line
     new_list_block = block.split("\n")
 
     #now with this block convert each of these into html_nodes
     lst_of_html_nodes = []
-    for entry in new_list_block:
+    for entry in new_list_block:    
+        entry = entry.strip("-")
+        entry = entry.strip()
         new_list_leaf_node = LeafNode("li", entry)
         lst_of_html_nodes.append(new_list_leaf_node)
-    
+    print(lst_of_html_nodes)
     return lst_of_html_nodes
     
 def count_header_size(block):
@@ -156,10 +162,11 @@ def block_to_html(markdown):
         #print("---------------------")
         #print(block_tag == BlockType.CODE)
         #print(BlockType.CODE)
-        if block_type == BlockType.ORDERED_LIST:
+        if block_type == BlockType.ORDERED_LIST or block_type == BlockType.UNORDERED_LIST:
             #going to need to convert the block of the list into text nodes 
             
-            list_nodes = list_block_to_nodes(block)
+            print("I AM A LIST")
+            list_nodes = list_block_to_nodes(block,)
             parent_node = ParentNode(block_tag, list_nodes, None)
             lst_of_parent_nodes.append(parent_node)
 
@@ -197,10 +204,9 @@ def block_to_html(markdown):
 
 def main():
     md = """
-```
-This is text that _should_ remain
-the **same** even with inline stuff
-```
+- Hello My name is Tom
+- I am doctor at 
+- Penn State 
 """
     result = block_to_html(md)
     print(result)   
