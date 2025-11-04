@@ -114,18 +114,32 @@ def block_type_to_tag(block_type, block):
         return "code"
         
 
-def list_block_to_nodes(block):
+def list_block_to_nodes(block, block_type):
 
     #first things first split the block by new line
     new_list_block = block.split("\n")
 
     #now with this block convert each of these into html_nodes
     lst_of_html_nodes = []
-    for entry in new_list_block:    
-        entry = entry.strip("-")
-        entry = entry.strip()
-        new_list_leaf_node = LeafNode("li", entry)
-        lst_of_html_nodes.append(new_list_leaf_node)
+    
+    if block_type == BlockType.UNORDERED_LIST:
+
+        for entry in new_list_block:    
+            entry = entry.strip("-")
+            entry = entry.strip()
+            new_list_leaf_node = LeafNode("li", entry)
+            lst_of_html_nodes.append(new_list_leaf_node)
+
+    else: # case for ordered list
+        print("HELLLO")
+        for entry in new_list_block:
+            print(entry)
+            entry = re.sub("(?m)^\s*\d+[.)]\s*", "", entry)
+            print(entry)
+            entry = entry.strip()
+            new_list_leaf_node = LeafNode("li", entry)
+            lst_of_html_nodes.append(new_list_leaf_node)
+
     print(lst_of_html_nodes)
     return lst_of_html_nodes
     
@@ -166,7 +180,7 @@ def block_to_html(markdown):
             #going to need to convert the block of the list into text nodes 
             
             print("I AM A LIST")
-            list_nodes = list_block_to_nodes(block,)
+            list_nodes = list_block_to_nodes(block, block_type)
             parent_node = ParentNode(block_tag, list_nodes, None)
             lst_of_parent_nodes.append(parent_node)
 
@@ -204,9 +218,9 @@ def block_to_html(markdown):
 
 def main():
     md = """
-- Hello My name is Tom
-- I am doctor at 
-- Penn State 
+1. Hello My name is Tom
+2. I am doctor at 
+3. Penn State 
 """
     result = block_to_html(md)
     print(result)   
