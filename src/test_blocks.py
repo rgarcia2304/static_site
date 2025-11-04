@@ -105,9 +105,70 @@ the **same** even with inline stuff
 >
 >I like to Eat Pizza
 """
-    result = block_to_html(md)
-    self.assertEqual(
+        result = block_to_html(md)
+        self.assertEqual(
+                result,
+                "<div><blockquote>Hi my name is Rodrigo\n\nI like to Eat Pizza</blockquote></div>"
+                )
+    def test_ul(self):
+        md = """
+- hello 
+- my 
+- name 
+"""
+        result = block_to_html(md)
+        self.assertEqual(
+                result,
+                "<div><ul><li>hello</li><li>my</li><li>name</li></ul></div>"
+                )
+    
+    def test_ol(self):
+        md = """
+1. hello 
+2. my
+3. name
+"""
+        result = block_to_html(md)
+        self.assertEqual(
+                result,
+                "<div><ol><li>hello</li><li>my</li><li>name</li></ol></div>"
+                )
+
+    def test_header(self):
+        md = """
+### my name is javier Hernandez
+
+## I was a good striker
+
+# My favorite quote is imaginemos cosas chingonas
+
+"""
+        result = block_to_html(md)
+        self.assertEqual(
             result,
-            "<div><quote>Hi my name is Rodrigo I like to Eat Pizza 
+            "<div><h3>my name is javier Hernandez</h3><h2>I was a good striker</h2><h1>My favorite quote is imaginemos cosas chingonas</h1></div>"
+            )
+
+    def test_mix(self):
+        md = """
+# My name is Rodrigo 
+
+
+## My favorite foods are 
+
+
+- Lasagna
+- Tacos Al Pastor
+- Tortas de Asada 
+
+
+>I think Everyone should pursue their childhood dreams
+"""
+
+        result = block_to_html(md)
+        self.assertEqual(
+                result,
+            "<div><h1>My name is Rodrigo</h1><h2>My favorite foods are</h2><ul><li>Lasagna</li><li>Tacos Al Pastor</li><li>Tortas de Asada</li></ul><blockquote>I think Everyone should pursue their childhood dreams</blockquote></div>")
+
 if __name__ == "__main__":
     unittest.main()
