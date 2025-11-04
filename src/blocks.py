@@ -35,6 +35,7 @@ def markdown_to_blocks(markdown):
 
         clean_block = split_blocks[block].strip()
         cleaned_blocks.append(clean_block)
+        
 
 
     final_blocks = []
@@ -49,7 +50,7 @@ def block_to_block_type(markdown):
     # header
     test_header = re.findall(r'^#{1,6}(?:\s+.+|$)', markdown)
     if test_header:
-        return BlockType.HEADER
+        return BlockType.HEADING
 
     # code fence (opening or closing ``` with optional language)
     test_code = re.findall(r'^```', markdown,flags=re.MULTILINE)
@@ -146,9 +147,15 @@ def list_block_to_nodes(block, block_type):
 def count_header_size(block):
     
     count = 0
-    while char in block == "#":
-        count += 1 
+    
+    for char in block:
+        if char == "#":
+            count += 1
 
+        if char != "#":
+            break
+
+    
     return f"h{count}" 
     
 
@@ -193,7 +200,28 @@ def block_to_html(markdown):
                 block_to_text_nodes = text_to_textnodes(block)
                 children = block_text_to_html_nodes(block_to_text_nodes)
                 parent_node = ParentNode(block_tag, children)
-                lst_of_parent_nodes.append(parent_node)    
+                lst_of_parent_nodes.append(parent_node)  
+            elif block_type == BlockType.QUOTE:
+                block = block.strip(">")
+                block_to_text_nodes = text_to_textnodes(block)
+                children = block_text_to_html_nodes(block_to_text_nodes)
+                parent_node = ParentNode(block_tag, children)
+                lst_of_parent_nodes.append(parent_node)
+            
+            else:
+                # this is the case for the heading 
+                #strip the beggining headings
+                print(block)
+                print(count_header_size(block))
+                prefix_to_remove = count_header_size(block)[-1]
+                pf = "#" * int(prefix_to_remove)
+                block = block.strip(pf)
+                block = block.strip()
+                block_to_text_nodes = text_to_textnodes(block)
+                children = block_text_to_html_nodes(block_to_text_nodes)
+                parent_node = ParentNode(block_tag, children)
+                lst_of_parent_nodes.append(parent_node)
+                    
         elif block_type == BlockType.CODE:
             #print("HELLO WE ARE CODE")
             block = block.strip("```")
@@ -218,9 +246,10 @@ def block_to_html(markdown):
 
 def main():
     md = """
-1. Hello My name is Tom
-2. I am doctor at 
-3. Penn State 
+>My name is Rodrigo
+
+
+#### James is my cousin
 """
     result = block_to_html(md)
     print(result)   
