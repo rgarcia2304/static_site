@@ -103,7 +103,7 @@ def block_type_to_tag(block_type, block):
         return count_header_size(block)
     
     elif block_type == BlockType.QUOTE:
-        return "quote"
+        return "blockquote"
 
     elif block_type == BlockType.UNORDERED_LIST:
         return "ul"
@@ -200,9 +200,11 @@ def block_to_html(markdown):
                 block_to_text_nodes = text_to_textnodes(block)
                 children = block_text_to_html_nodes(block_to_text_nodes)
                 parent_node = ParentNode(block_tag, children)
-                lst_of_parent_nodes.append(parent_node)  
+                lst_of_parent_nodes.append(parent_node) 
+
             elif block_type == BlockType.QUOTE:
                 block = block.strip(">")
+                block= block.replace("\n>","\n")
                 block_to_text_nodes = text_to_textnodes(block)
                 children = block_text_to_html_nodes(block_to_text_nodes)
                 parent_node = ParentNode(block_tag, children)
@@ -246,12 +248,10 @@ def block_to_html(markdown):
 
 def main():
     md = """
->My name is Rodrigo
-
-
-#### James is my cousin
+>Hi my name is Rodrigo
+>
+>I like to Eat Pizza
 """
-    result = block_to_html(md)
-    print(result)   
-main()
+    r = block_to_html(md)
 
+main()

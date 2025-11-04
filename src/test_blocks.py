@@ -98,5 +98,16 @@ the **same** even with inline stuff
             node,
         "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
     )
+
+    def test_quoteblock(self):
+        md = """
+>Hi my name is Rodrigo
+>
+>I like to Eat Pizza
+"""
+    result = block_to_html(md)
+    self.assertEqual(
+            result,
+            "<div><quote>Hi my name is Rodrigo I like to Eat Pizza 
 if __name__ == "__main__":
     unittest.main()
