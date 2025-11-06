@@ -104,7 +104,10 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         print("--------CURRENT DESTINATION PATH-----------", current_dest_path)
         if os.path.isfile(current_path_of_item):
             # do the processing of making the file in the target directory
-
+            
+            #cut the index.md prefix and make it .html
+            current_dest_path = current_dest_path.replace("/index.md","/index.html")
+            print("CURRENT PATHHH TO WRITE INTO", current_dest_path) 
             generate_page(current_path_of_item, template_path, current_dest_path)
 
         else:
@@ -130,7 +133,7 @@ def main():
     #content_locations = ["content/index.md","content/blog/glorfindel/index.md","content/blog/tom/index.md", "content/blog/majesty/index.md", "content/contact/index.md"]
     
     content_directory = os.path.join(current_directory,"content")
-    print("THIS IS CONTENT ", content_directory) 
+    ##print("THIS IS CONTENT ", content_directory) 
     #template path
     
     template_path = os.path.join(current_directory, "template.html")
@@ -139,20 +142,6 @@ def main():
     write_path = os.path.join(current_directory, "public")
 
     generate_pages_recursive(content_directory, template_path, write_path)
-    """
-    for content in content_locations:
-
-        content_directory = os.path.join(parent_directory,content)
-        print("THIS IS CONTENT ", content_directory) 
-        #template path
-    
-        template_path = os.path.join(parent_directory, "template.html")
-
-        #path to write to 
-        write_path = os.path.join(parent_directory, "public/index.html")
-
-        generate_page(content_directory, template_path, write_path)
-        """
 main()
 
 
