@@ -8,16 +8,17 @@ def copy_to_public():
     #code to create the public directory 
     curr_dir = os.listdir
     current_directory = os.getcwd()
-    parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+    #parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
     #print(parent_directory)
-    public_directory = os.path.join(parent_directory,"public/")
-    #print(public_directory)
-    #print(os.listdir(public_directory))
+    public_directory = os.path.join(current_directory,"public")
+    print("THIS IS THE PUBLIC -----")
+    print(public_directory)
+    print(os.listdir(public_directory))
     shutil.rmtree(public_directory)
     os.makedirs(public_directory)
     #print(os.listdir(public_directory))
     #get static directory 
-    static_directory = os.path.join(parent_directory, "static/")
+    static_directory = os.path.join(current_directory, "static")
 
     #code to transfer all info from static to public
     explore_file_tree(static_directory, public_directory)
@@ -87,6 +88,31 @@ def generate_page(from_path, template_path, dest_path):
 
     print("hello")
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+
+    #list out items in directory 
+    lst_dir = os.listdir(dir_path_content)
+    
+    print("_-----------LIST DIR---")
+    if lst_dir == []:
+        return 
+    
+    for item in lst_dir:
+        current_path_of_item = os.path.join(dir_path_content, item)
+        print("_-------CURRENT PATH of ITEM", current_path_of_item)
+        current_dest_path = os.path.join(dest_dir_path, item)
+        print("--------CURRENT DESTINATION PATH-----------", current_dest_path)
+        if os.path.isfile(current_path_of_item):
+            # do the processing of making the file in the target directory
+
+            generate_page(current_path_of_item, template_path, current_dest_path)
+
+        else:
+            #make new directory at destination
+            os.makedirs(current_dest_path)
+
+            #now recursively crawl this 
+            generate_pages_recursive(current_path_of_item, template_path, current_dest_path)
 
 
 def main():
@@ -94,19 +120,39 @@ def main():
     copy_to_public()
     #get full path of content
     current_directory = os.getcwd()
-    parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
-    print(parent_directory)
-    content_directory = os.path.join(parent_directory,"content/index.md")
+    #this is /static
+
+
+    #parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
+    #print(parent_directory)
+
+    #loop through different content
+    #content_locations = ["content/index.md","content/blog/glorfindel/index.md","content/blog/tom/index.md", "content/blog/majesty/index.md", "content/contact/index.md"]
+    
+    content_directory = os.path.join(current_directory,"content")
     print("THIS IS CONTENT ", content_directory) 
     #template path
     
-    template_path = os.path.join(parent_directory, "template.html")
+    template_path = os.path.join(current_directory, "template.html")
 
     #path to write to 
-    write_path = os.path.join(parent_directory, "public/index.html")
+    write_path = os.path.join(current_directory, "public")
 
-    generate_page(content_directory, template_path, write_path)
+    generate_pages_recursive(content_directory, template_path, write_path)
+    """
+    for content in content_locations:
 
+        content_directory = os.path.join(parent_directory,content)
+        print("THIS IS CONTENT ", content_directory) 
+        #template path
+    
+        template_path = os.path.join(parent_directory, "template.html")
+
+        #path to write to 
+        write_path = os.path.join(parent_directory, "public/index.html")
+
+        generate_page(content_directory, template_path, write_path)
+        """
 main()
 
 
