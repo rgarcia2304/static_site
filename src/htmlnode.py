@@ -93,10 +93,10 @@ def text_node_to_html_node(text_node):
         elif text_node.text_type == TextType.CODE:
             return LeafNode("code", text_node.text)
 
-        elif text_node.text_type == TextType.LINKS:
+        elif text_node.text_type == TextType.LINK:
             return LeafNode("a", text_node.text,{"href": text_node.url})
 
-        elif text_node.text_type == TextType.IMAGES:
+        elif text_node.text_type == TextType.IMAGE:
             return LeafNode("img", "",{"src":text_node.url, "alt": text_node.text})
         
     raise Exception("NOT A TEXT NODE")

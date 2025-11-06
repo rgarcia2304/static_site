@@ -73,9 +73,9 @@ def block_to_block_type(markdown):
 
     # ordered list (one or more digits, dot, space, then text)
     test_ordered_list = re.findall(r'^\s*\d+\.\s+(.+)$', markdown, flags = re.MULTILINE)
-    print("------------")
-    print(test_ordered_list)
-    print("-------------")
+    #print("------------")
+    #print(test_ordered_list)
+    #print("-------------")
 
     if test_ordered_list:
         return BlockType.ORDERED_LIST
@@ -86,7 +86,7 @@ def block_to_block_type(markdown):
 def block_text_to_html_nodes(text_nodes):
     lst_html_nodes = []
     
-    "THIS IS THE TEXT NODE CURRENTLLY"
+    #"THIS IS THE TEXT NODE CURRENTLLY"
     for block_node in text_nodes:
 
         lst_html_nodes.append(text_node_to_html_node(block_node))
@@ -94,7 +94,7 @@ def block_text_to_html_nodes(text_nodes):
     return lst_html_nodes
 
 def block_type_to_tag(block_type, block):
-    print(block_type)
+    #print(block_type)
 
     if block_type == BlockType.PARAGRAPH:
         return "p"
@@ -132,16 +132,16 @@ def list_block_to_nodes(block, block_type):
             lst_of_html_nodes.append(new_list_leaf_node)
 
     else: # case for ordered list
-        print("HELLLO")
+        #print("HELLLO")
         for entry in new_list_block:
-            print(entry)
+            #print(entry)
             entry = re.sub("(?m)^\s*\d+[.)]\s*", "", entry)
-            print(entry)
+            #print(entry)
             entry = entry.strip()
             new_list_leaf_node = LeafNode("li", entry)
             lst_of_html_nodes.append(new_list_leaf_node)
 
-    print(lst_of_html_nodes)
+    #print(lst_of_html_nodes)
     return lst_of_html_nodes
     
 def count_header_size(block):
@@ -163,7 +163,7 @@ def block_to_html(markdown):
 
     #split the markdown into blocks
     converted_blocks = markdown_to_blocks(markdown)
-    print(converted_blocks)
+    #print(converted_blocks)
     lst_of_parent_nodes = []
     #loop throught the converted blocks 
     for block in converted_blocks:
@@ -186,7 +186,7 @@ def block_to_html(markdown):
         if block_type == BlockType.ORDERED_LIST or block_type == BlockType.UNORDERED_LIST:
             #going to need to convert the block of the list into text nodes 
             
-            print("I AM A LIST")
+            #print("I AM A LIST")
             list_nodes = list_block_to_nodes(block, block_type)
             parent_node = ParentNode(block_tag, list_nodes, None)
             lst_of_parent_nodes.append(parent_node)
@@ -213,8 +213,8 @@ def block_to_html(markdown):
             else:
                 # this is the case for the heading 
                 #strip the beggining headings
-                print(block)
-                print(count_header_size(block))
+                #print(block)
+                #print(count_header_size(block))
                 prefix_to_remove = count_header_size(block)[-1]
                 pf = "#" * int(prefix_to_remove)
                 block = block.strip(pf)
@@ -226,18 +226,21 @@ def block_to_html(markdown):
                     
         elif block_type == BlockType.CODE:
             #print("HELLO WE ARE CODE")
+            #PROCESSING ON BLOCK
             block = block.strip("```")
             #also strip the beggining and ending new lines
             prefix_to_remove = "\n"
             block = block.removeprefix(prefix_to_remove)
+
             new_child_node = TextNode(block, TextType.CODE)
             new_html_node = text_node_to_html_node(new_child_node)
             #print('_----------_')
             #print(new_html_node)
             #print("----------")
             parent_to_html_single = ParentNode('pre', [new_html_node], None)
-            the_father_node_for_code = ParentNode('div', [parent_to_html_single], None)
-            return the_father_node_for_code.to_html()
+            lst_of_parent_nodes.append(parent_to_html_single)
+            #the_father_node_for_code = ParentNode('div', [parent_to_html_single], None)
+            #return the_father_node_for_code.to_html()
 
     #ok so now we the parent nodes
     the_father_node = ParentNode('div', lst_of_parent_nodes, None)
@@ -248,10 +251,53 @@ def block_to_html(markdown):
 
 def main():
     md = """
->Hi my name is Rodrigo
+# Tolkien Fan Club
+
+![JRR Tolkien sitting](/images/tolkien.png)
+
+Here's the deal, **I like Tolkien**.
+
+> "I am in fact a Hobbit in all but size."
 >
->I like to Eat Pizza
+> -- J.R.R. Tolkien
+
+## Blog posts
+
+- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)
+- [Why Tom Bombadil Was a Mistake](/blog/tom)
+- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)
+
+## Reasons I like Tolkien
+
+- You can spend years studying the legendarium and still not understand its depths
+- It can be enjoyed by children and adults alike
+- Disney _didn't ruin it_ (okay, but Amazon might have)
+- It created an entirely new genre of fantasy
+
+## My favorite characters (in order)
+
+1. Gandalf
+2. Bilbo
+3. Sam
+4. Glorfindel
+5. Galadriel
+6. Elrond
+7. Thorin
+8. Sauron
+9. Aragorn
+
+Here's what `elflang` looks like (the perfect coding language):
+
+```
+func main(){
+    fmt.Println("Aiya, Ambar!")
+}
+```
+
+Want to get in touch? [Contact me here](/contact).
+
+This site was generated with a custom-built [static site generator](https://www.boot.dev/courses/build-static-site-generator-python) from the course on [Boot.dev](https://www.boot.dev).
 """
     r = block_to_html(md)
-
+    print(r)
 main()
