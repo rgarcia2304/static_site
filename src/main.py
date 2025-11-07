@@ -126,7 +126,7 @@ def main():
     if sys.argv == []:
         set_base = "/"
     else:
-        set_base = sys.argv[0]
+        set_base = sys.argv[1]
 
     current_directory = os.getcwd()
     copy_to_public()
