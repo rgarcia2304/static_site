@@ -21,6 +21,7 @@ Here is a little about me
 - [Do Hard Things](https://www.nytimes.com/2025/03/27/opinion/persistence-work-difficulty.html)
 
 ## Movies I like 
+
 - Good Will Hunting
 - Ratatouille
 - Indiana Jones Raiders of the Last Ark
