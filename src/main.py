@@ -1,3 +1,4 @@
+import sys
 from textnode import *
 import os 
 import shutil
@@ -10,10 +11,10 @@ def copy_to_public():
     current_directory = os.getcwd()
     #parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
     #print(parent_directory)
-    public_directory = os.path.join(current_directory,"public")
-    print("THIS IS THE PUBLIC -----")
-    print(public_directory)
-    print(os.listdir(public_directory))
+    public_directory = os.path.join(current_directory,"docs")
+    #print("THIS IS THE PUBLIC -----")
+    #print(public_directory)
+    #print(os.listdir(public_directory))
     shutil.rmtree(public_directory)
     os.makedirs(public_directory)
     #print(os.listdir(public_directory))
@@ -53,7 +54,7 @@ def extract_title(markdown):
     return match.group(1).strip()
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path):
 
     print(f'generating page from {from_path} to {dest_path} using {template_path}')
     
@@ -82,18 +83,19 @@ def generate_page(from_path, template_path, dest_path):
     #now we have to get the template_lines and replace them with 
     template_line = template_line.replace('{{ Title }}', title)
     template_line = template_line.replace('{{ Content }}', html_string)
+    template_line = template_line.replace('href="/', f'href="{base_path}')
+    template_line = template_line.replace('src="/', f'src="{base_path}')
 
     with open(dest_path, 'w') as file:
         file.write(template_line)
 
     print("hello")
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, base_path):
 
     #list out items in directory 
     lst_dir = os.listdir(dir_path_content)
     
-    print("_-----------LIST DIR---")
     if lst_dir == []:
         return 
     
@@ -108,40 +110,34 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
             #cut the index.md prefix and make it .html
             current_dest_path = current_dest_path.replace("/index.md","/index.html")
             print("CURRENT PATHHH TO WRITE INTO", current_dest_path) 
-            generate_page(current_path_of_item, template_path, current_dest_path)
+            generate_page(current_path_of_item, template_path, current_dest_path, base_path)
 
         else:
             #make new directory at destination
             os.makedirs(current_dest_path)
 
             #now recursively crawl this 
-            generate_pages_recursive(current_path_of_item, template_path, current_dest_path)
+            generate_pages_recursive(current_path_of_item, template_path, current_dest_path, base_path)
 
 
 def main():
-
-    copy_to_public()
-    #get full path of content
-    current_directory = os.getcwd()
-    #this is /static
-
-
-    #parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
-    #print(parent_directory)
-
-    #loop through different content
-    #content_locations = ["content/index.md","content/blog/glorfindel/index.md","content/blog/tom/index.md", "content/blog/majesty/index.md", "content/contact/index.md"]
     
+    set_base = ""
+    if sys.argv == []:
+        set_base = "/"
+    else:
+        set_base = sys.argv[0]
+
+    current_directory = os.getcwd()
+    copy_to_public()
     content_directory = os.path.join(current_directory,"content")
-    ##print("THIS IS CONTENT ", content_directory) 
-    #template path
     
     template_path = os.path.join(current_directory, "template.html")
 
     #path to write to 
-    write_path = os.path.join(current_directory, "public")
+    write_path = os.path.join(current_directory, "docs")
 
-    generate_pages_recursive(content_directory, template_path, write_path)
+    generate_pages_recursive(content_directory, template_path, write_path, set_base)
 main()
 
 
