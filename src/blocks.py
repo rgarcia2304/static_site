@@ -15,17 +15,13 @@ def markdown_to_blocks(markdown):
     #split blocks based on new_lines
     split_blocks = markdown.split("\n\n")
     
-    #print(split_blocks)
 
     cleaned_blocks = []
 
     for block in range(len(split_blocks)):
         if block == 0:
-            #print(split_blocks[block])
             prefix_to_remove = "\n"
-            #print(split_blocks)
             split_blocks[block] = split_blocks[block].removeprefix(prefix_to_remove)
-            #print(split_blocks)
 
     
         #also remove trailing backspaces for last
@@ -73,9 +69,6 @@ def block_to_block_type(markdown):
 
     # ordered list (one or more digits, dot, space, then text)
     test_ordered_list = re.findall(r'^\s*\d+\.\s+(.+)$', markdown, flags = re.MULTILINE)
-    #print("------------")
-    #print(test_ordered_list)
-    #print("-------------")
 
     if test_ordered_list:
         return BlockType.ORDERED_LIST

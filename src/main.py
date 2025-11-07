@@ -9,15 +9,9 @@ def copy_to_public():
     #code to create the public directory 
     curr_dir = os.listdir
     current_directory = os.getcwd()
-    #parent_directory = os.path.abspath(os.path.join(current_directory, os.pardir))
-    #print(parent_directory)
     public_directory = os.path.join(current_directory,"docs")
-    #print("THIS IS THE PUBLIC -----")
-    #print(public_directory)
-    #print(os.listdir(public_directory))
     shutil.rmtree(public_directory)
     os.makedirs(public_directory)
-    #print(os.listdir(public_directory))
     #get static directory 
     static_directory = os.path.join(current_directory, "static")
 
@@ -65,26 +59,21 @@ def generate_page(from_path, template_path, dest_path, base_path):
     
     with open(template_path, "r") as file:
         template_line = file.read()
-    print("-------------------") 
-    "".join(from_line)
     md = "".join(from_line)
-    print("-----MARKDOWN")
-    print("----")
     html_string = block_to_html(md)
-    print(html_string)
 
     #grab the title of the page 
     title = extract_title(md)
-    #print("---------")
-    #print(md)
-    #print("-------")
-    print(title)
     
     #now we have to get the template_lines and replace them with 
     template_line = template_line.replace('{{ Title }}', title)
     template_line = template_line.replace('{{ Content }}', html_string)
-    template_line = template_line.replace('href="/', f'href="{base_path}')
-    template_line = template_line.replace('src="/', f'src="{base_path}')
+    #template_line = template_line.replace('href="/', f'href="{base_path}')
+    #template_line = template_line.replace('src="/', f'src="{base_path}')
+    base = "/" if not base_path or base_path == "/" else f"/{base_path.strip('/')}/"
+
+    template_line = template_line.replace('href="/', f'href="{base}')
+    template_line = template_line.replace('src="/',  f'src="{base}') 
 
     with open(dest_path, 'w') as file:
         file.write(template_line)
@@ -123,7 +112,6 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
 def main():
     
     set_base = ""
-    
     if len(sys.argv) < 2:
         set_base = "/"
     else:
@@ -137,8 +125,7 @@ def main():
 
     #path to write to 
     write_path = os.path.join(current_directory, "docs")
+    print("--------WRITE PATH-------")
 
     generate_pages_recursive(content_directory, template_path, write_path, set_base)
 main()
-
-
