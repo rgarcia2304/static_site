@@ -123,7 +123,8 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, bas
 def main():
     
     set_base = ""
-    if sys.argv == []:
+    
+    if len(sys.argv) < 2:
         set_base = "/"
     else:
         set_base = sys.argv[1]

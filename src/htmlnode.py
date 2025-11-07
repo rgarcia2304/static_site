@@ -67,6 +67,9 @@ class ParentNode(HTMLNode):
             
         result_string = ""
         for child in self.children:
+            print("\n\n\n\n")
+            print(child)
+            print("im the child --------------")
             result = child.to_html()
             result_string += result
         

@@ -116,34 +116,30 @@ def block_type_to_tag(block_type, block):
         
 
 def list_block_to_nodes(block, block_type):
+    """
+    Turn a list block into a list of <li> ParentNodes whose children
+    are properly parsed inline HTML nodes (bold/italic/links/code/etc).
+    """
+    lines = [ln for ln in block.splitlines() if ln.strip()]
+    li_nodes = []
 
-    #first things first split the block by new line
-    new_list_block = block.split("\n")
+    for line in lines:
+        if block_type == BlockType.UNORDERED_LIST:
+            # remove leading -, +, or * with following whitespace
+            content = re.sub(r'^\s*[-+*]\s+', '', line, count=1)
+        else:
+            # remove leading digits with . or ) and following whitespace
+            content = re.sub(r'^\s*\d+[.)]\s+', '', line, count=1)
 
-    #now with this block convert each of these into html_nodes
-    lst_of_html_nodes = []
-    
-    if block_type == BlockType.UNORDERED_LIST:
+        # Parse inline markdown for this list item
+        tnodes = text_to_textnodes(content)
+        children = block_text_to_html_nodes(tnodes)
 
-        for entry in new_list_block:    
-            entry = entry.strip("-")
-            entry = entry.strip()
-            new_list_leaf_node = LeafNode("li", entry)
-            lst_of_html_nodes.append(new_list_leaf_node)
+        # li should be a ParentNode whose children are the inline nodes
+        li_nodes.append(ParentNode('li', children, None))
 
-    else: # case for ordered list
-        #print("HELLLO")
-        for entry in new_list_block:
-            #print(entry)
-            entry = re.sub("(?m)^\s*\d+[.)]\s*", "", entry)
-            #print(entry)
-            entry = entry.strip()
-            new_list_leaf_node = LeafNode("li", entry)
-            lst_of_html_nodes.append(new_list_leaf_node)
-
-    #print(lst_of_html_nodes)
-    return lst_of_html_nodes
-    
+    return li_nodes
+   
 def count_header_size(block):
     
     count = 0
