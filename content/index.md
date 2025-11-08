@@ -4,16 +4,17 @@
 
 ```
 Above me are some of my heros can't tell the story of me without them!
-Anyways a little about me 
 ```
 
 ## A little About this Project
 
-To be completley honest I never liked building things. In fact I built my first Lego Set when I was 21 years old. In contrast throughout my childhood I do remember finding passion in reading and imagining being in these elaborate worlds. These worlds often were of pure fantasy but man did they seem fun to live in. So I believe because it was instilled in me that my goal in life was to get to the bottom of why we are where we are in this world. Much to the the detroment of my family I would ask why about everything. As soon as I got my hands on a computer I would google the most insane stuff and how it worked. More than anything I loved finding out how we got here my true first passion was History.
+To be completely honest I never liked building things. In fact I built my first Lego Set when I was 21 years old. In contrast throughout my childhood I do remember finding passion in reading and imagining being in elaborate worlds I read about in fiction. I am extremely grateful to have discovered a love for reading early.
 
-But I am not pursuing a degree in History I am pursuing a degree in **Computer Science** and largley explore **Math**. To be completley honest I am the worst at Applied Mathematics and Computer Science. But in a large part I love it because there is so much to learn and more than anything it offers concrete explanitory facts of how the world works! I like to tell myself _playing to my strengths_ would have been easy, Easy is not fun, I sometimes lose myself programming and that's how stuff like this comes to be. Technology for better or for worse is the interface that touches our lives possibly the most, I want to be able to get to the bottom of knowing how this connects to humans and be able to tell the story of technology one day.
+My goal in life has always been to get to the bottom of how we got here. Much to the detriment of my family I would ask why about everything to everyone oftentimes without much care for how nosy I was being. You can only imagine as soon as I got my hands on a computer I would spend countless hours exploring **everything**. In my younger years I remember spending hours upon hours learning about history and politics around the world. History was my first passion.
 
-So This Project about me was built from scratch. The cool part about this is that we take Markdown Text which is a nice way of being able to write documents online and other static elements and turn it into language the computer can understand. 
+But I am not pursuing a degree in History I am pursuing a degree in **Computer Science** and actually do a bunch of  **Math**. To be completely honest I do not play to my strengths and am actually the worst at Applied Mathematics and Computer Science amongst all my subjects in school. But in a large part I love it because it offers concrete explanatory facts of how the world works! **Math is one of the only things in life that does not lie**. I like to tell myself _playing to my strengths_ would have been easy, Easy is not fun, I sometimes lose myself programming and that's how stuff like this comes to be. Technology for better or for worse is the interface that touches our lives possibly the most. I want to be able to get to the bottom of knowing how this connects to humans and be able to tell the story of technology one day.
+
+So this project about me was built from scratch. The cool part about this is that we take Markdown Text which is a nice way of being able to write documents online and other static elements and turn it into language the computer can understand. 
 
 ## Checkout Some Info Below 
 
@@ -38,5 +39,4 @@ So This Project about me was built from scratch. The cool part about this is tha
 - Indiana Jones Raiders of the Last Ark
 
 Want to get in touch? [Contact me here](/contact)
-
 
