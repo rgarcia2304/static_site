@@ -21,7 +21,7 @@ So this project about me was built from scratch. The cool part about this is tha
 ### Important Stories and Life Lessons 
 
 - [Why we should have hope and keep on going](/essay/hope)
-- [The Case for Always being Optimistic](/essay/optimistic)
+- [A conversation about the basics](/essay/optimistic)
 - [A lesson in Time Management](/essay/time)
 
 ### Some of my favorite books and content I've Looked at recently 
