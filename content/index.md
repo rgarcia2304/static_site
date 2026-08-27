@@ -18,13 +18,17 @@ So this project about me was built from scratch. The cool part about this is tha
 
 ## Checkout Some Info Below 
 
+### Some projects I've worked on 
+
+- [Trying to figure out how to use LLMs in education](/essay/teach)
+
 ### Important Stories and Life Lessons 
 
 - [Why we should have hope and keep on going](/essay/hope)
 - [A conversation about the basics](/essay/optimistic)
 - [A lesson in Time Management](/essay/time)
 
-### Some of my favorite books and content I've Looked at recently 
+### Some of my favorite books and content 
 
 - Crime and Punishment
 - The Inner Game
