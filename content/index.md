@@ -1,3 +1,4 @@
+
 # Hi I am Rodrigo 
 
 ![Rodrigo Picture](/images/family.png)
@@ -8,19 +9,24 @@ Above me are some of my heros can't tell the story of me without them!
 
 ## A little About this Project
 
-To be completely honest I never liked building things. In fact I built my first Lego Set when I was 21 years old. In contrast throughout my childhood I do remember finding passion in reading and imagining being in elaborate worlds I read about in fiction. I am extremely grateful to have discovered a love for reading early.
+I really like understanding things. That’s fundamentally the person I am, thus probably my love for philosophy and history. 
 
 My goal in life has always been to get to the bottom of how we got here. Much to the detriment of my family I would ask why about everything to everyone oftentimes without much care for how nosy I was being. You can only imagine as soon as I got my hands on a computer I would spend countless hours exploring **everything**. In my younger years I remember spending hours upon hours learning about history and politics around the world. History was my first passion.
 
-But I am not pursuing a degree in History I am pursuing a degree in **Computer Science** and actually do a bunch of  **Math**. To be completely honest I did not play to my strengths and was actually the worst at Applied Mathematics and Computer Science amongst all my subjects in gradeschool. But in a large part I loved it because it offered concrete explanatory facts of how the world works! **Math does not lie**. I like to tell myself _playing to my strengths_ would have been easy, Easy is not fun, I sometimes lose myself programming and that's how stuff like this comes to be. Technology for better or for worse is the interface that touches our lives possibly the most. So while there is nothing remarkable about my natural mathematical ability I studied and worked hard and now I put it on par with any of my other abilities. I want to be able to get to the bottom of knowing how tech connects to humans and be able to tell the story of it one day.
+I lost myself learning and while doing some programming I ran into this project that allowed me to turn markdown into html pages everybody could view. This in my opinion is cool because I don’t use any frameworks and I could really understand and control how content was being processed no black boxes. 
 
-So this project about me was built from scratch. The cool part about this is that we take Markdown Text which is a nice way of being able to write documents online and other static elements and turn it into language the computer can understand. 
+So this serves as more of a personal site than a portfolio site which I also have. 
+
+Enjoy
+
+Rodrigo 
+
 
 ## Checkout Some Info Below 
 
 ### Some projects I've worked on 
 
-- [Trying to figure out how to use LLMs in education](/essay/teach)
+- [list of projects](/projects)
 
 ### Important Stories and Life Lessons 
 
@@ -43,4 +49,5 @@ So this project about me was built from scratch. The cool part about this is tha
 - Indiana Jones Raiders of the Last Ark
 
 Want to get in touch? [Contact me here](/contact)
+
 
