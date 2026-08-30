@@ -6,17 +6,17 @@ Checkout the github: repo
 [shelfPlayer](https://www.github.com/rgarcia2304/shelfPlayer)
 
 
-So I believe it or not I don't remember that much of the analog world. Don’t get me wrong I vaguely remember the cassette tapes and stereos but I never really used it much. I grew up alongside computers and phones to play my media. 
+So I believe it or not I don't remember that much of the analog world. I can vaguely remember the cassette tapes and stereos but I never really used it much. I grew up alongside computers and phones to play my media. 
 
-It might be weird to say knowing this that I kind’ve yearned for this analog world. I don’t want to interface with UI’s or cover art. I just want to put in some tape with the Jams I like and have it play. 
+They say you yearn for what you don't have and in this case its true. Simply put, I don’t want to interface with UI’s or cover art. I just want to put in some tape with the Jams I like and have it play. 
 
-So I built it….
+So I built it…. on my computer
 
 ## How this came to be 
 
 For much of my undergrad I always tried to better my focus, whether it be studying in specific sports, pomodoro, or being with classmates etc…. But one of my favorite things was going on youtube and watching James Scholz to study with him.. Yes I do have friends btw but with this one I didn’t have to interact with him, and he played nice music with his pomodoro.
 
-But there remained an issue I didn’t want to go on Youtube and be tempted by the latest Reckless Ben video or documentary that was curated to me. Plus I didn’t particularly like having to youtube up and see James for the 20th session in a row in the same location, studying with me. So I thought, "Wouldn't it be badass if I made some type of player?" 
+But there remained an issue I didn’t want to go on Youtube and be tempted by the latest video or documentary that was curated to me. Plus I didn’t particularly like having to go on youtube  and see James for the 20th session in a row in the same location, studying with me. So I thought, "Wouldn't it be badass if I made some type of player?" 
 
 And then I saw this sony walkman ad. And I knew that's what I needed. 
 
@@ -86,5 +86,7 @@ This was a really fun project and I learned a lot about just how hard it is to d
 
 Now I don’t get baited to watch youtube documentaries or get distracted by my apple music, I just spin this up, in the corner and get to work or don’t … 
 
--Cheers
+-
+
+Cheers
 
