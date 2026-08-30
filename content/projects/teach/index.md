@@ -17,12 +17,13 @@ Here’s a video of me using it in action it’s kind’ve long but I think it�
 ### Side Note 
 
 Well to be honest to all of you I wrote this a couple of months ago. I was dealing with the internal crossroads of a huge problem. The problem was that I saw people were cheating on everything yet I too fell victim to the convenience. Personally I do wrestle with LLM’s alot, especially if I don’t understand something, but damn there’s something powerful about having a ridiculous problem set question an LLM could one shot. So I built this as a sort of thought experiment to see where I could maybe think up a solution to actually be able to learn with LLMs. I enjoyed every bit of this project and hope you will maybe take a look at some of the work I’ve done, and maybe provide some feedback. This isn’t too technical as in my opinion the product was a much bigger focus. Maybe I could’ve been practicing some leetcode, to do better in my interviews earlier this year but this was way more important and fun to me. 
-Enjoy, 
+Enjoy,
+
 Rodrigo 
 
 ### Back to the main story
 
-My father was only able to afford to get a middle school education. It stressed my whole life, the privilege it was to be somewhere where education was widely available. To let you know how serious I took education, my mom has a go to story of me coming home in the fourth grade crying because I got an F, (that would be the last F I got till college, but it was ok in college because of curves.. anyways).  To compound on top of this, over the course of my life the web has made learning more and more accessible. In my eyes education being readily available and free should be how it is. Due to me being curious I always just explored things that interested me which led me down to where I am today for better or worse. The availability of the web and having phenomenal educators have been some of the most important things in my life.
+My father was only able to afford to get a middle school education. It was stressed my whole life, the privilege it was to be somewhere where education was widely available. To let you know how serious I took education, my mom has a go to story of me coming home in the fourth grade crying because I got an F, (that would be the last F I got till college, but it was ok in college because of curves.. anyways).  To compound on top of this, over the course of my life the web has made learning more and more accessible. In my eyes education being readily available and free should be how it is. Due to me being curious I always just explored things that interested me which led me down to where I am today for better or worse. The availability of the web and having phenomenal educators have been some of the most important things in my life.
 
  Yet, just because something is accessible doesn’t make it useful at all. So I think now we may have the problem of too much information and too many shortcuts which are killing curiosity. One of my missions in life is to see how we can address this curiosity pandemic. 
 
