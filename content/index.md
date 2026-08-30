@@ -19,7 +19,7 @@ So this serves as more of a personal site than a portfolio site which I also hav
 
 Enjoy
 
-Rodrigo 
+Rodrigo :)
 
 
 ## Checkout Some Info Below 
